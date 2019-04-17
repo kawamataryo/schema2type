@@ -4,7 +4,7 @@ def create_table(table_name, *arg, &block)
   columns = Columns.new(table_name: table_name)
   block.call(columns)
   text = columns.out_text
-  text.push "}"
+  text.push "    }"
   text.push ""
 
   File.open(ARGV[1], "a") do |out|
@@ -17,7 +17,7 @@ class Columns
 
   def initialize(table_name:)
     @out_text = []
-    @out_text.push "type #{table_name.singularize} = {"
+    @out_text.push "    type #{table_name.singularize.camelize} = {"
   end
 
   def date(name, *options)
@@ -44,6 +44,26 @@ class Columns
     write_column name: name, type: "string", options: options
   end
 
+  def boolean(name, *options)
+    write_column name: name, type: "boolean", options: options
+  end
+
+  def decimal(name, *options)
+    write_column name: name, type: "number", options: options
+  end
+
+  def json(name, *options)
+    write_column name: name, type: "string", options: options
+  end
+
+  def binary(name, *options)
+    write_column name: name, type: "string", options: options
+  end
+
+  def timestamp(name, *options)
+    write_column name: name, type: "string", options: options
+  end
+
   def index(*arg)
   end
 
@@ -52,9 +72,9 @@ class Columns
   def write_column(name:, type:, options:)
     is_non_nullable = options.include?({ :null => false })
     if is_non_nullable
-      @out_text.push "  #{name}: #{type}"
+      @out_text.push "      #{name}: #{type}"
     else
-      @out_text.push "  #{name}: #{type} | null"
+      @out_text.push "      #{name}: #{type} | null"
     end
   end
 end
@@ -67,7 +87,26 @@ module ActiveRecord
   end
 end
 
-File.open(ARGV[1], "w").close
+
+File.open(ARGV[1], "w") do |f|
+  init_text = <<-EOS
+declare namespace misoca {
+
+  /**
+   * DBに紐づく型定義
+   */
+  namespace schema {
+
+EOS
+  f.puts init_text
+end
 
 eval(File.read(ARGV[0]))
 
+File.open(ARGV[1], "a") do |f|
+  init_text = <<-EOS
+  }
+}
+EOS
+  f.puts init_text
+end

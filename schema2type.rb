@@ -1,18 +1,25 @@
 require "active_support/inflector"
+require 'optparse'
+
+params = ARGV.getopts('f:o:n:')
+
+$INPUT_FILE = params["f"]
+$OUT_FILE = params["o"]
+$NAME_SPACE = params["n"]
 
 def create_table(table_name, *arg, &block)
-  columns = Columns.new(table_name: table_name)
-  block.call(columns)
-  text = columns.out_text
+  converter = TypeConverter.new(table_name: table_name)
+  block.call(converter)
+  text = converter.out_text
   text.push "    }"
   text.push ""
 
-  File.open(ARGV[1], "a") do |out|
+  File.open($OUT_FILE, "a") do |out|
     text.each {|line| out.puts line}
   end
 end
 
-class Columns
+class TypeConverter
   attr_accessor :out_text
 
   def initialize(table_name:)
@@ -21,47 +28,47 @@ class Columns
   end
 
   def date(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def string(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def integer(name, *options)
-    write_column name: name, type: "number", options: options
+    write_type name: name, type: "number", options: options
   end
 
   def bigint(name, *options)
-    write_column name: name, type: "number", options: options
+    write_type name: name, type: "number", options: options
   end
 
   def datetime(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def text(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def boolean(name, *options)
-    write_column name: name, type: "boolean", options: options
+    write_type name: name, type: "boolean", options: options
   end
 
   def decimal(name, *options)
-    write_column name: name, type: "number", options: options
+    write_type name: name, type: "number", options: options
   end
 
   def json(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def binary(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def timestamp(name, *options)
-    write_column name: name, type: "string", options: options
+    write_type name: name, type: "string", options: options
   end
 
   def index(*arg)
@@ -69,7 +76,7 @@ class Columns
 
   private
 
-  def write_column(name:, type:, options:)
+  def write_type(name:, type:, options:)
     is_non_nullable = options.include?({ :null => false })
     if is_non_nullable
       @out_text.push "      #{name}: #{type}"
@@ -88,22 +95,18 @@ module ActiveRecord
 end
 
 
-File.open(ARGV[1], "w") do |f|
-  init_text = <<-EOS
-declare namespace misoca {
-
-  /**
-   * DBに紐づく型定義
-   */
+File.open($OUT_FILE, "w") do |f|
+  INIT_TEXT = <<-EOS
+declare namespace #{$NAME_SPACE ? $NAME_SPACE : "schema2type"} {
   namespace schema {
 
 EOS
-  f.puts init_text
+  f.puts INIT_TEXT
 end
 
-eval(File.read(ARGV[0]))
+eval(File.read($INPUT_FILE))
 
-File.open(ARGV[1], "a") do |f|
+File.open($OUT_FILE, "a") do |f|
   init_text = <<-EOS
   }
 }

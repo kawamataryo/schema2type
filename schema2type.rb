@@ -82,7 +82,7 @@ class TypeConverter
   private
 
     def write_type(name:, type:, options:)
-      is_non_nullable = options.include?({ :null => false })
+      is_non_nullable = options[0] && options[0].has_key?(:null) && !options[0][:null]
       if is_non_nullable
         @out_text.push "      #{name}: #{type}"
       else

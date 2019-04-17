@@ -1,2 +1,2 @@
-# scheme2ts
-railsのscheme.rbからtypescriptの型定義を作成するスクリプト
+# schema2type
+railsのschema.rbからtypescriptの型定義を作成するスクリプト

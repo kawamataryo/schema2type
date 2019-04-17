@@ -22,53 +22,58 @@ end
 class TypeConverter
   attr_accessor :out_text
 
+  TYPE_STRING = "string"
+  TYPE_NUMBER = "number"
+  TYPE_BOOLEAN = "string"
+  TYPE_OBJECT = "object"
+
   def initialize(table_name:)
     @out_text = []
     @out_text.push "    type #{table_name.singularize.camelize} = {"
   end
 
   def date(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def string(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def integer(name, *options)
-    write_type name: name, type: "number", options: options
+    write_type name: name, type: TYPE_NUMBER, options: options
   end
 
   def bigint(name, *options)
-    write_type name: name, type: "number", options: options
+    write_type name: name, type: TYPE_NUMBER, options: options
   end
 
   def datetime(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def text(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def boolean(name, *options)
-    write_type name: name, type: "boolean", options: options
+    write_type name: name, type: TYPE_BOOLEAN, options: options
   end
 
   def decimal(name, *options)
-    write_type name: name, type: "number", options: options
+    write_type name: name, type: TYPE_NUMBER, options: options
   end
 
   def json(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def binary(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def timestamp(name, *options)
-    write_type name: name, type: "string", options: options
+    write_type name: name, type: TYPE_STRING, options: options
   end
 
   def index(*arg)
@@ -76,14 +81,14 @@ class TypeConverter
 
   private
 
-  def write_type(name:, type:, options:)
-    is_non_nullable = options.include?({ :null => false })
-    if is_non_nullable
-      @out_text.push "      #{name}: #{type}"
-    else
-      @out_text.push "      #{name}: #{type} | null"
+    def write_type(name:, type:, options:)
+      is_non_nullable = options.include?({ :null => false })
+      if is_non_nullable
+        @out_text.push "      #{name}: #{type}"
+      else
+        @out_text.push "      #{name}: #{type} | null"
+      end
     end
-  end
 end
 
 module ActiveRecord

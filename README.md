@@ -20,16 +20,14 @@ end
 Automatically have the following TypesScript type generated
 
 ```typescript
-declare namespace your_production {
-  namespace schema {
-    type User = {
-      name: string | null
-      age: number | null
-      sales: number | null
-      paid: boolean
-      created_at: Date
-      updated_at: Date
-    }
+declare namespace schema {
+  type User = {
+    name: string | null
+    age: number | null
+    sales: number | null
+    paid: boolean
+    created_at: Date
+    updated_at: Date
   }
 }
 ```

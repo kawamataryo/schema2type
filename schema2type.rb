@@ -27,16 +27,14 @@ end
 
 eval(File.read(INPUT_FILE))
 
-name_space = NAME_SPACE ? NAME_SPACE : "schema2type"
+name_space = NAME_SPACE ? NAME_SPACE : "schema"
 convert_type_text =
-    $convert_types.map { |t| "    #{t}" }.join("\n").strip
+    $convert_types.map { |t| "  #{t}" }.join("\n").strip
 
 File.open(OUT_FILE, "w") do |f|
   CONVERT_TEXT = <<-EOS
 declare namespace #{name_space} {
-  namespace schema {
-    #{convert_type_text}
-  }
+  #{convert_type_text}
 }
   EOS
   f.puts CONVERT_TEXT

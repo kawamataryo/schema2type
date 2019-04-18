@@ -1,94 +1,20 @@
-require "active_support/inflector"
 require 'optparse'
+require './src/schema_converter'
 
 params = ARGV.getopts('f:o:n:')
 
-$INPUT_FILE = params["f"]
-$OUT_FILE = params["o"]
-$NAME_SPACE = params["n"]
+INPUT_FILE = params["f"]
+OUT_FILE = params["o"]
+NAME_SPACE = params["n"]
+
+$convert_types = []
 
 def create_table(table_name, *arg, &block)
-  converter = TypeConverter.new(table_name: table_name)
+  converter = SchemaConverter.new(table_name: table_name)
   block.call(converter)
-  text = converter.out_text
-  text.push "    }"
-  text.push ""
+  converter.finalize
 
-  File.open($OUT_FILE, "a") do |out|
-    text.each {|line| out.puts line}
-  end
-end
-
-class TypeConverter
-  attr_accessor :out_text
-
-  TYPE_STRING = "string"
-  TYPE_NUMBER = "number"
-  TYPE_BOOLEAN = "string"
-  TYPE_OBJECT = "object"
-
-  def initialize(table_name:)
-    @out_text = []
-    @out_text.push "    type #{table_name.singularize.camelize} = {"
-  end
-
-  def date(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def string(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def integer(name, *options)
-    write_type name: name, type: TYPE_NUMBER, options: options
-  end
-
-  def bigint(name, *options)
-    write_type name: name, type: TYPE_NUMBER, options: options
-  end
-
-  def datetime(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def text(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def boolean(name, *options)
-    write_type name: name, type: TYPE_BOOLEAN, options: options
-  end
-
-  def decimal(name, *options)
-    write_type name: name, type: TYPE_NUMBER, options: options
-  end
-
-  def json(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def binary(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def timestamp(name, *options)
-    write_type name: name, type: TYPE_STRING, options: options
-  end
-
-  def index(*arg)
-  end
-
-  private
-
-    def write_type(name:, type:, options:)
-      is_non_nullable = options[0] && options[0].has_key?(:null) && !options[0][:null]
-      if is_non_nullable
-        @out_text.push "      #{name}: #{type}"
-      else
-        @out_text.push "      #{name}: #{type} | null"
-      end
-    end
+  $convert_types.concat(converter.out_text)
 end
 
 module ActiveRecord
@@ -99,22 +25,21 @@ module ActiveRecord
   end
 end
 
+eval(File.read(INPUT_FILE))
 
-File.open($OUT_FILE, "w") do |f|
-  INIT_TEXT = <<-EOS
-declare namespace #{$NAME_SPACE ? $NAME_SPACE : "schema2type"} {
+name_space = NAME_SPACE ? NAME_SPACE : "schema2type"
+convert_type_text =
+    $convert_types.map { |t| "    #{t}" }.join("\n").strip
+
+File.open(OUT_FILE, "w") do |f|
+  CONVERT_TEXT = <<-EOS
+declare namespace #{name_space} {
   namespace schema {
-
-EOS
-  f.puts INIT_TEXT
-end
-
-eval(File.read($INPUT_FILE))
-
-File.open($OUT_FILE, "a") do |f|
-  init_text = <<-EOS
+    #{convert_type_text}
   }
 }
-EOS
-  f.puts init_text
+  EOS
+  f.puts CONVERT_TEXT
 end
+
+

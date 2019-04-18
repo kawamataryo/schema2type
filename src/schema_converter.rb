@@ -7,7 +7,7 @@ class SchemaConverter
   TYPE_STRING = "string"
   TYPE_NUMBER = "number"
   TYPE_BOOLEAN = "string"
-  TYPE_OBJECT = "object"
+  TYPE_DATE = "Date"
 
   def initialize(table_name:)
     @out_text = []
@@ -35,10 +35,6 @@ class SchemaConverter
     push_property_line name: name, type: TYPE_NUMBER, options: options
   end
 
-  def datetime(name, *options)
-    push_property_line name: name, type: TYPE_STRING, options: options
-  end
-
   def text(name, *options)
     push_property_line name: name, type: TYPE_STRING, options: options
   end
@@ -59,8 +55,12 @@ class SchemaConverter
     push_property_line name: name, type: TYPE_STRING, options: options
   end
 
+  def datetime(name, *options)
+    push_property_line name: name, type: TYPE_DATE, options: options
+  end
+
   def timestamp(name, *options)
-    push_property_line name: name, type: TYPE_STRING, options: options
+    push_property_line name: name, type: TYPE_DATE, options: options
   end
 
   def index(*arg)

@@ -1,9 +1,9 @@
 require 'optparse'
 require './src/schema_converter'
 
-params = ARGV.getopts('f:o:n:')
+params = ARGV.getopts('s:o:n:')
 
-INPUT_FILE = params["f"]
+INPUT_FILE = params["s"]
 OUT_FILE = params["o"]
 NAME_SPACE = params["n"]
 

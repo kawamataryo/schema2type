@@ -20,10 +20,6 @@ module Schema2type
       @out_text << "}\n"
     end
 
-    def date(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
     def string(name, *options)
       push_property_line name: name, type: TYPE_STRING, options: options
     end
@@ -66,6 +62,10 @@ module Schema2type
 
     def binary(name, *options)
       push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
+    def date(name, *options)
+      push_property_line name: name, type: TYPE_DATE, options: options
     end
 
     def datetime(name, *options)

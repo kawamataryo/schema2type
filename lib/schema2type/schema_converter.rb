@@ -71,7 +71,8 @@ module Schema2type
 
     def push_property_line(name:, type:, options:)
       is_non_nullable = options[0] && options[0].has_key?(:null) && !options[0][:null]
-      property_line = is_non_nullable ? "#{name}: #{type}" : "#{name}: #{type} | null"
+      camelizeName = name.camelcase(:lower)
+      property_line = is_non_nullable ? "#{camelizeName}: #{type}" : "#{camelizeName}: #{type} | null"
 
       @out_text << "  #{property_line}"
     end

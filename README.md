@@ -26,8 +26,8 @@ declare namespace schema {
     age: number | null
     sales: number | null
     paid: boolean
-    created_at: Date
-    updated_at: Date
+    createdAt: Date
+    updatedAt: Date
   }
 }
 ```

@@ -53,8 +53,16 @@ Or install it yourself as:
 ## Usage
 
 ```
-bundle exec schema2type -s schema.rb -o schema.d.ts -n production_name
+bundle exec schema2type -s db/schema.rb -o schema.d.ts -n schema
 ```
+
+#### options
+
+|command | require | default | detail |
+|---|---|---|---|
+| -s | true | - | Path of your schema.rb  |
+| -o | true | - | Output file name of TypeScript |
+| -n | false | "schema" | Name of declare namespace |
 
 ## License
 

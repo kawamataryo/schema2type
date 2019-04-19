@@ -37,6 +37,15 @@ declare namespace #{name_space ||= "schema"} {
     $convert_types.concat(converter.out_text)
   end
 
+  def self.enable_extension(*arg)
+  end
+
+  def self.add_foreign_key(*arg)
+  end
+
+  def self.add_index(*arg)
+  end
+
   module ActiveRecord
     class Schema
       def self.define(version, &block)

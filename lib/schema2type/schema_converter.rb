@@ -28,11 +28,19 @@ module Schema2type
       push_property_line name: name, type: TYPE_STRING, options: options
     end
 
+    def inet(name, *options)
+      push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
     def integer(name, *options)
       push_property_line name: name, type: TYPE_NUMBER, options: options
     end
 
     def bigint(name, *options)
+      push_property_line name: name, type: TYPE_NUMBER, options: options
+    end
+
+    def float(name, *options)
       push_property_line name: name, type: TYPE_NUMBER, options: options
     end
 
@@ -52,6 +60,10 @@ module Schema2type
       push_property_line name: name, type: TYPE_STRING, options: options
     end
 
+    def jsonb(name, *options)
+      push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
     def binary(name, *options)
       push_property_line name: name, type: TYPE_STRING, options: options
     end
@@ -61,6 +73,10 @@ module Schema2type
     end
 
     def timestamp(name, *options)
+      push_property_line name: name, type: TYPE_DATE, options: options
+    end
+
+    def datetime_with_timezone(name, *options)
       push_property_line name: name, type: TYPE_DATE, options: options
     end
 

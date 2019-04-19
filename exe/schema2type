@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'schema2type'
+
+params = ARGV.getopts('s:o:n:')
+
+Schema2type.execute(input_file: params["s"], out_file: params["o"], name_space: params["n"])

@@ -32,10 +32,32 @@ declare namespace schema {
 }
 ```
 
-# Quick Start
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'schema2type'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install schema2type
+    
+
+
+## Usage
 
 ```
-git clone git@github.com:kawamataryo/schema2type.git
-
-ruby schema2type.rb -s schema.rb -o schema.d.ts -n production_name
+bundle exec schema2type -s schema.rb -o schema.d.ts -n production_name
 ```
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+

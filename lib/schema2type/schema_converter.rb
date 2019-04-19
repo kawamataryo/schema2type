@@ -80,7 +80,8 @@ module Schema2type
       push_property_line name: name, type: TYPE_DATE, options: options
     end
 
-    def index(*arg)
+    def method_missing(*arg)
+      # To exclude unnecessary methods
     end
 
     private

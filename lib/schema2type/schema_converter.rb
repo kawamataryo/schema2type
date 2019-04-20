@@ -7,7 +7,7 @@ module Schema2type
 
     TYPE_STRING = 'string'.freeze
     TYPE_NUMBER = 'number'.freeze
-    TYPE_BOOLEAN = 'string'.freeze
+    TYPE_BOOLEAN = 'boolean'.freeze
     TYPE_DATE = 'Date'.freeze
     COLUMN_METHODS = [
       { string: TYPE_STRING },

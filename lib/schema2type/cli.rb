@@ -4,7 +4,8 @@ module Schema2type
   $convert_types = []
   $schema_version = ''
 
-  def self.execute(input_file:, out_file:, name_space:)
+  def self.execute(input_file:, out_file:, name_space:, snake_case:)
+    $snake_case = snake_case
     eval(File.read(input_file))
 
     convert_type_text = $convert_types.map { |t| "  #{t}" }.join("\n").strip
@@ -26,7 +27,7 @@ EOS
   end
 
   def self.create_table(table_name, *arg, &block)
-    converter = SchemaConverter.new(table_name: table_name)
+    converter = SchemaConverter.new(table_name: table_name, snake_case: $snake_case)
     block.call(converter)
     converter.finalize
 

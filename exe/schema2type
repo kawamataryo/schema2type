@@ -3,6 +3,6 @@
 require 'optparse'
 require 'schema2type'
 
-params = ARGV.getopts('s:o:n:')
+params = ARGV.getopts('s:o:n:', 'snake')
 
-Schema2type.execute(input_file: params["s"], out_file: params["o"], name_space: params["n"])
+Schema2type.execute(input_file: params["s"], out_file: params["o"], name_space: params["n"], snake_case: params["snake"])

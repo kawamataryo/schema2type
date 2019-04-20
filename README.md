@@ -63,7 +63,27 @@ bundle exec schema2type -s db/schema.rb -o schema.d.ts -n schema
 | -s | true | - | Path of your schema.rb  |
 | -o | true | - | Output file name of TypeScript |
 | -n | false | "schema" | Name of declare namespace |
+| --snake | false | false | Convert property name to snake_case |
 
+#### conversion table
+
+|create_table block method| converted Type|
+|---|---|
+| string | string |
+| text | string |
+| json | string |
+| jsonb | string |
+| binary | string |
+| inet | string |
+| integer | number |
+| bigint | number |
+| float | number |
+| decimal | number |
+| boolean | boolean |
+| date | Date |
+| datetime | Date |
+| timestamp | Date |
+| datetime_with_timezone | Date |
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

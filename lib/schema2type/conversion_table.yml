@@ -1,0 +1,16 @@
+# This is the correspondence table of method of schema.rb and Type of TypeScript
+string: string
+inet: string
+text: string
+json: string
+jsonb: string
+binary: string
+integer: number
+bigint: number
+float: number
+decimal: number
+boolean: boolean
+date: Date
+datetime: Date
+timestamp: Date
+datetime_with_timezone: Date

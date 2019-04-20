@@ -5,18 +5,18 @@ module Schema2type
     attr_accessor :out_text
     attr_reader :table_name
 
-    TYPE_STRING = "string"
-    TYPE_NUMBER = "number"
-    TYPE_BOOLEAN = "string"
-    TYPE_DATE = "Date"
+    TYPE_STRING = "string".freeze
+    TYPE_NUMBER = "number".freeze
+    TYPE_BOOLEAN = "string".freeze
+    TYPE_DATE = "Date".freeze
 
     def initialize(table_name:)
       @out_text = []
-      @table_name = table_name
+      @table_name = table_name.singularize.camelize
     end
 
     def finalize
-      @out_text.unshift "type #{@table_name.singularize.camelize} = {"
+      @out_text.unshift "type #{@table_name} = {"
       @out_text << "}\n"
     end
 
@@ -25,6 +25,22 @@ module Schema2type
     end
 
     def inet(name, *options)
+      push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
+    def text(name, *options)
+      push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
+    def json(name, *options)
+      push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
+    def jsonb(name, *options)
+      push_property_line name: name, type: TYPE_STRING, options: options
+    end
+
+    def binary(name, *options)
       push_property_line name: name, type: TYPE_STRING, options: options
     end
 
@@ -40,28 +56,12 @@ module Schema2type
       push_property_line name: name, type: TYPE_NUMBER, options: options
     end
 
-    def text(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
     def boolean(name, *options)
       push_property_line name: name, type: TYPE_BOOLEAN, options: options
     end
 
     def decimal(name, *options)
       push_property_line name: name, type: TYPE_NUMBER, options: options
-    end
-
-    def json(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def jsonb(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def binary(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
     end
 
     def date(name, *options)

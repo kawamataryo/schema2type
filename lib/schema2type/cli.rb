@@ -1,18 +1,16 @@
 require 'date'
 
 module Schema2type
-
   $convert_types = []
   $schema_version = ''
 
   def self.execute(input_file:, out_file:, name_space:)
-
     eval(File.read(input_file))
 
     convert_type_text = $convert_types.map { |t| "  #{t}" }.join("\n").strip
 
     File.open(out_file, "w") do |f|
-    f.puts <<-EOS
+      f.puts <<-EOS
 /* eslint no-unused-vars: 0 */
 
 /**
@@ -23,11 +21,9 @@ module Schema2type
 declare namespace #{name_space ||= "schema"} {
   #{convert_type_text}
 }
-      EOS
+EOS
     end
   end
-
-  private
 
   def self.create_table(table_name, *arg, &block)
     converter = SchemaConverter.new(table_name: table_name)

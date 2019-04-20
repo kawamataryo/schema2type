@@ -25,25 +25,7 @@ RSpec.describe Schema2type do
     end
 
     describe 'property_methods' do
-      METHODS = [
-        { string: Schema2type::SchemaConverter::TYPE_STRING },
-        { inet: Schema2type::SchemaConverter::TYPE_STRING },
-        { integer: Schema2type::SchemaConverter::TYPE_NUMBER },
-        { bigint: Schema2type::SchemaConverter::TYPE_NUMBER },
-        { float: Schema2type::SchemaConverter::TYPE_NUMBER },
-        { text: Schema2type::SchemaConverter::TYPE_STRING },
-        { boolean: Schema2type::SchemaConverter::TYPE_BOOLEAN },
-        { decimal: Schema2type::SchemaConverter::TYPE_NUMBER },
-        { json: Schema2type::SchemaConverter::TYPE_STRING },
-        { jsonb: Schema2type::SchemaConverter::TYPE_STRING },
-        { binary: Schema2type::SchemaConverter::TYPE_STRING },
-        { date: Schema2type::SchemaConverter::TYPE_DATE },
-        { datetime: Schema2type::SchemaConverter::TYPE_DATE },
-        { timestamp: Schema2type::SchemaConverter::TYPE_DATE },
-        { datetime_with_timezone: Schema2type::SchemaConverter::TYPE_DATE }
-      ].freeze
-
-      METHODS.each do |m|
+      Schema2type::SchemaConverter::COLUMN_METHODS.each do |m|
         it "#{m.keys[0]}メソッドは#{m.values[0]}を型に設定すること" do
           sc.send(m.keys[0], 'column')
           expect(sc.out_text[0]).to eq(%(  column: #{m.values[0]} | null))

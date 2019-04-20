@@ -1,14 +1,31 @@
-require "active_support/inflector"
+require 'active_support/inflector'
 
 module Schema2type
   class SchemaConverter
     attr_accessor :out_text
     attr_reader :table_name
 
-    TYPE_STRING = "string".freeze
-    TYPE_NUMBER = "number".freeze
-    TYPE_BOOLEAN = "string".freeze
-    TYPE_DATE = "Date".freeze
+    TYPE_STRING = 'string'.freeze
+    TYPE_NUMBER = 'number'.freeze
+    TYPE_BOOLEAN = 'string'.freeze
+    TYPE_DATE = 'Date'.freeze
+    COLUMN_METHODS = [
+      { string: TYPE_STRING },
+      { inet: TYPE_STRING },
+      { integer: TYPE_NUMBER },
+      { bigint: TYPE_NUMBER },
+      { float: TYPE_NUMBER },
+      { text: TYPE_STRING },
+      { boolean: TYPE_BOOLEAN },
+      { decimal: TYPE_NUMBER },
+      { json: TYPE_STRING },
+      { jsonb: TYPE_STRING },
+      { binary: TYPE_STRING },
+      { date: TYPE_DATE },
+      { datetime: TYPE_DATE },
+      { timestamp: TYPE_DATE },
+      { datetime_with_timezone: TYPE_DATE }
+    ].map(&:freeze).freeze
 
     def initialize(table_name:)
       @out_text = []
@@ -20,65 +37,15 @@ module Schema2type
       @out_text << "}\n"
     end
 
-    def string(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
+    def self.define_convert_methods(methods)
+      methods.each do |m|
+        define_method(m.keys[0]) do |name, *options|
+          push_property_line name: name, type: m.values[0], options: options
+        end
+      end
     end
 
-    def inet(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def text(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def json(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def jsonb(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def binary(name, *options)
-      push_property_line name: name, type: TYPE_STRING, options: options
-    end
-
-    def integer(name, *options)
-      push_property_line name: name, type: TYPE_NUMBER, options: options
-    end
-
-    def bigint(name, *options)
-      push_property_line name: name, type: TYPE_NUMBER, options: options
-    end
-
-    def float(name, *options)
-      push_property_line name: name, type: TYPE_NUMBER, options: options
-    end
-
-    def boolean(name, *options)
-      push_property_line name: name, type: TYPE_BOOLEAN, options: options
-    end
-
-    def decimal(name, *options)
-      push_property_line name: name, type: TYPE_NUMBER, options: options
-    end
-
-    def date(name, *options)
-      push_property_line name: name, type: TYPE_DATE, options: options
-    end
-
-    def datetime(name, *options)
-      push_property_line name: name, type: TYPE_DATE, options: options
-    end
-
-    def timestamp(name, *options)
-      push_property_line name: name, type: TYPE_DATE, options: options
-    end
-
-    def datetime_with_timezone(name, *options)
-      push_property_line name: name, type: TYPE_DATE, options: options
-    end
+    define_convert_methods COLUMN_METHODS
 
     def method_missing(*arg)
       # To exclude unnecessary methods
@@ -87,9 +54,9 @@ module Schema2type
     private
 
     def push_property_line(name:, type:, options:)
-      is_non_nullable = options[0] && options[0].has_key?(:null) && !options[0][:null]
-      camelizeName = name.camelcase(:lower)
-      property_line = is_non_nullable ? "#{camelizeName}: #{type}" : "#{camelizeName}: #{type} | null"
+      is_non_nullable = options[0] && options[0].key?(:null) && !options[0][:null]
+      camelize_name = name.camelcase(:lower)
+      property_line = is_non_nullable ? "#{camelize_name}: #{type}" : "#{camelize_name}: #{type} | null"
 
       @out_text << "  #{property_line}"
     end

@@ -1,0 +1,14 @@
+string: string
+inet: string
+integer: numberg
+bigint: numberg
+float: numberg
+text: string
+boolean: boolean
+decimal: numberg
+json: string
+jsonb: string
+binary: string
+date: TYPE_DATE
+datetime: TYPE_DATE
+timestamp: TYPE_DATE

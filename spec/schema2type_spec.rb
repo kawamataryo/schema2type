@@ -1,8 +1,8 @@
 RSpec.describe Schema2type do
   describe '#execute' do
-    INPUT_FIlE = Tempfile.open('input.rb') do |f|
+    INPUT_FIlE = Tempfile.open(%w(input .rb)) do |f|
       f.write <<-EOS
-        ActiveRecord::Schema.define(version: 20170929125808) do
+       ActiveRecord::Schema.define(version: 20170929125808) do
           create_table "histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
             t.string "column_string"
             t.inet "column_inet"
@@ -28,7 +28,7 @@ RSpec.describe Schema2type do
       EOS
       f
     end
-    let(:out_file) { Tempfile.new('out.hoge.ts') }
+    let(:out_file) { Tempfile.new(['out.hoge.ts']) }
 
     context 'snake_caseがtrueの場合' do
       it 'snake_caseで変換できる' do
@@ -68,7 +68,6 @@ RSpec.describe Schema2type do
     end
 
     context 'snake_caseがfalseの場合' do
-      p INPUT_FIlE.path
       it 'lowerCamelで変換できる' do
         Schema2type::execute(input_file: INPUT_FIlE.path, out_file: out_file.path, name_space: "hoge", snake_case: false)
         expect(out_file.read).to eq <<~EOS

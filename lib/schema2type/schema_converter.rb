@@ -3,25 +3,13 @@ require 'active_support/inflector'
 
 module Schema2type
   class SchemaConverter
-    attr_accessor :out_text
-    attr_reader :table_name, :convertion_table, :snake_case
+    attr_reader :property_lines, :table_name, :convertion_table, :snake_case
 
     TYPE_STRING = 'string'.freeze
     TYPE_NUMBER = 'number'.freeze
     TYPE_BOOLEAN = 'boolean'.freeze
     TYPE_DATE = 'Date'.freeze
     COLUMN_METHODS = YAML.load_file(File.expand_path(__dir__) + '/conversion_table.yml').to_a
-
-    def initialize(table_name:, snake_case: false)
-      @out_text = []
-      @table_name = table_name.singularize.camelize
-      @snake_case = snake_case
-    end
-
-    def finalize
-      @out_text.unshift "type #{@table_name} = {"
-      @out_text << "}\n"
-    end
 
     def self.define_convert_methods(methods)
       methods.each do |m|
@@ -33,7 +21,17 @@ module Schema2type
 
     define_convert_methods COLUMN_METHODS
 
-    def method_missing(*arg)
+    def initialize(table_name:, snake_case: false)
+      @property_lines = []
+      @table_name = table_name.singularize.camelize
+      @snake_case = snake_case
+    end
+
+    def result
+      ["type #{table_name} = {", property_lines, "}\n"].flatten
+    end
+
+    def method_missing(*)
       # To exclude unnecessary methods
     end
 
@@ -41,10 +39,10 @@ module Schema2type
 
     def push_property_line(name:, type:, options:)
       is_non_nullable = options[0] && options[0].key?(:null) && !options[0][:null]
-      formatted_name = @snake_case ? name.underscore : name.camelcase(:lower)
+      formatted_name = snake_case ? name.underscore : name.camelcase(:lower)
       property_line = is_non_nullable ? "#{formatted_name}: #{type};" : "#{formatted_name}: #{type} | null;"
 
-      @out_text << "  #{property_line}"
+      property_lines << "  #{property_line}"
     end
   end
 end

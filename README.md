@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: xxxx) do
 end
 ```
 
-Automatically have the following TypesScript type generated
+Automatically have the following TypesScript type generated.
 
 ```typescript
 declare namespace schema {
@@ -53,19 +53,20 @@ Or install it yourself as:
 ## Usage
 
 ```
-bundle exec schema2type -s db/schema.rb -o schema.d.ts -n schema
+bundle exec schema2type -o schema.d.ts
 ```
 
-#### options
+### options
 
 |command | require | default | detail |
 |---|---|---|---|
-| -s | true | - | Path of your schema.rb  |
 | -o | true | - | Output file name of TypeScript |
+| -s | false | "./db/schema.rb" | Path of your schema.rb  |
 | -n | false | "schema" | Name of declare namespace |
 | --snake | false | false | Convert property name to snake_case |
 
-#### conversion table
+## conversion table
+the schema2type convert as per this conversion table.
 
 |create_table block method| converted Type|
 |---|---|

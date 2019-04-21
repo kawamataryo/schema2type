@@ -3,7 +3,7 @@ require 'active_support/inflector'
 
 module Schema2type
   class SchemaConverter
-    attr_reader :property_lines, :table_name, :convertion_table, :snake_case
+    attr_reader :property_lines, :table_name, :snake_case
 
     TYPE_STRING = 'string'.freeze
     TYPE_NUMBER = 'number'.freeze

@@ -32,7 +32,7 @@ RSpec.describe Schema2type do
 
     context 'snake_caseがtrueの場合' do
       it 'snake_caseで変換できる' do
-        Schema2type::execute(input_file: INPUT_FIlE.path, out_file: out_file.path, name_space: "hoge", snake_case: true)
+        Schema2type::execute(input_file: INPUT_FIlE.path, out_file: out_file.path, name_space: "hoge", is_snake_case: true)
         expect(out_file.read).to eq <<~EOS
           /* eslint no-unused-vars: 0 */
 
@@ -69,7 +69,7 @@ RSpec.describe Schema2type do
 
     context 'snake_caseがfalseの場合' do
       it 'lowerCamelで変換できる' do
-        Schema2type::execute(input_file: INPUT_FIlE.path, out_file: out_file.path, name_space: "hoge", snake_case: false)
+        Schema2type::execute(input_file: INPUT_FIlE.path, out_file: out_file.path, name_space: "hoge", is_snake_case: false)
         expect(out_file.read).to eq <<~EOS
           /* eslint no-unused-vars: 0 */
 

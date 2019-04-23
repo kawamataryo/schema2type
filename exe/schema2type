@@ -5,4 +5,4 @@ require 'schema2type'
 
 params = ARGV.getopts('s:o:n:', 'snake')
 
-Schema2type.execute(input_file: params['s'], out_file: params['o'], name_space: params['n'], snake_case: params['snake'])
+Schema2type.execute(input_file: params['s'], out_file: params['o'], name_space: params['n'], is_snake_case: params['snake'])

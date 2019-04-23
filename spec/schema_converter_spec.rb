@@ -7,40 +7,40 @@ RSpec.describe 'SchemaConverter' do
 
   describe '#result' do
     it 'out_textの先頭に"type table_name = {"、末尾に"}\n"を加えること' do
-      sc.send(:push_property_line, name: 'name', type: 'strong', options: [{ null: true }])
-      expect(sc.result).to eq(['type User = {', '  name: strong | null;', "}\n"])
+      sc.send(:convert_property_line_and_push, name: 'name', type: 'strong', options: [{ null: true }])
+      expect(sc.converted_type_texts).to eq(['type User = {', '  name: strong | null;', "}\n"])
     end
   end
 
   describe '#push_property_line' do
     context 'optionsにnull: falseを含まない場合' do
       it 'null許容型のプロパティ宣言を配列にプラスする' do
-        sc.send(:push_property_line, name: 'name', type: 'strong', options: [{ null: true }])
+        sc.send(:convert_property_line_and_push, name: 'name', type: 'strong', options: [{ null: true }])
         expect(sc.property_lines[0]).to eq('  name: strong | null;')
       end
     end
     context 'optionsにnull: falseを含む場合' do
       it 'optionsにnull: falseを含む場合、null非許容型のプロパティ宣言を配列にプラスする' do
-        sc.send(:push_property_line, name: 'name', type: 'strong', options: [{ null: false }])
+        sc.send(:convert_property_line_and_push, name: 'name', type: 'strong', options: [{ null: false }])
         expect(sc.property_lines[0]).to eq('  name: strong;')
       end
     end
     context 'snake_caseがfalseの場合' do
       let(:sc_not_snake) do
-        Schema2type::SchemaConverter.new(table_name: 'users', snake_case: false)
+        Schema2type::SchemaConverter.new(table_name: 'users', is_snake_case: false)
       end
       it 'lowerCamelでプロパティ名を設定すること' do
         p sc_not_snake
-        sc_not_snake.send(:push_property_line, name: 'user_name', type: 'strong', options: [])
+        sc_not_snake.send(:convert_property_line_and_push, name: 'user_name', type: 'strong', options: [])
         expect(sc_not_snake.property_lines[0]).to eq('  userName: strong | null;')
       end
     end
     context 'snake_caseがtrueの場合' do
       let(:sc_snake) do
-        Schema2type::SchemaConverter.new(table_name: 'users', snake_case: true)
+        Schema2type::SchemaConverter.new(table_name: 'users', is_snake_case: true)
       end
       it 'snake_caseでプロパティ名を設定すること' do
-        sc_snake.send(:push_property_line, name: 'userName', type: 'strong', options: [])
+        sc_snake.send(:convert_property_line_and_push, name: 'userName', type: 'strong', options: [])
         expect(sc_snake.property_lines[0]).to eq('  user_name: strong | null;')
       end
     end

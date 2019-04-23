@@ -43,6 +43,7 @@ RSpec.describe Schema2type do
            */
           declare namespace hoge {
             type History = {
+              id: number;
               column_string: string | null;
               column_inet: string | null;
               column_text: string | null;
@@ -53,6 +54,7 @@ RSpec.describe Schema2type do
             }
 
             type User = {
+              id: number;
               column_bigint: number | null;
               column_float: number | null;
               column_decimal: number | null;
@@ -80,6 +82,7 @@ RSpec.describe Schema2type do
            */
           declare namespace hoge {
             type History = {
+              id: number;
               columnString: string | null;
               columnInet: string | null;
               columnText: string | null;
@@ -90,6 +93,7 @@ RSpec.describe Schema2type do
             }
 
             type User = {
+              id: number;
               columnBigint: number | null;
               columnFloat: number | null;
               columnDecimal: number | null;

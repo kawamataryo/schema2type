@@ -13,7 +13,7 @@ module Schema2type
     def convert_schema_to_type(table_name, *)
       converter = SchemaConverter.new(table_name: table_name, is_snake_case: @is_snake_case)
       yield converter
-      @converted_types.concat converter.converted_type_texts
+      @converted_types.concat converter.converted_type_lines
     end
 
     def method_missing(*)

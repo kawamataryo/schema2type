@@ -10,6 +10,7 @@ module Schema2type
     TYPE_BOOLEAN = 'boolean'.freeze
     TYPE_DATE = 'Date'.freeze
     COLUMN_METHODS = YAML.load_file(File.expand_path(__dir__) + '/conversion_table.yml').to_a
+    ID_PROPERTY_LINE_TEXT = "  id: number;".freeze
 
     def self.define_convert_methods(methods)
       methods.each do |m|
@@ -27,8 +28,8 @@ module Schema2type
       @is_snake_case = is_snake_case
     end
 
-    def converted_type_texts
-      ["type #{table_name} = {", property_lines, "}\n"].flatten
+    def converted_type_lines
+      ["type #{table_name} = {", ID_PROPERTY_LINE_TEXT, property_lines, "}\n"].flatten
     end
 
     def method_missing(*)

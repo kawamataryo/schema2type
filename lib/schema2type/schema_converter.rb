@@ -5,10 +5,6 @@ module Schema2type
   class SchemaConverter
     attr_reader :property_lines, :table_name, :is_snake_case
 
-    TYPE_STRING = 'string'.freeze
-    TYPE_NUMBER = 'number'.freeze
-    TYPE_BOOLEAN = 'boolean'.freeze
-    TYPE_DATE = 'Date'.freeze
     COLUMN_METHODS = YAML.load_file(File.expand_path(__dir__) + '/conversion_table.yml').to_a
     ID_PROPERTY_LINE_TEXT = "  id: number;".freeze
 

@@ -1,10 +1,8 @@
 module Schema2type
-
   DEFAULT_SCHEMA_PATH = "./db/schema.rb".freeze
   DEFAULT_NAME_SPACE = "schema".freeze
 
   def self.execute(input_file:, out_file:, name_space:, is_snake_case:)
-
     resultHash = eval(File.read(input_file || DEFAULT_SCHEMA_PATH), CovertService.new(is_snake_case).get_binding)
 
     File.open(out_file, "w") do |f|

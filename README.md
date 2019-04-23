@@ -22,12 +22,13 @@ Automatically have the following TypesScript type generated.
 ```typescript
 declare namespace schema {
   type User = {
-    name: string | null
-    age: number | null
-    sales: number | null
-    paid: boolean
-    createdAt: Date
-    updatedAt: Date
+    id: number;
+    name: string | null;
+    age: number | null;
+    sales: number | null;
+    paid: boolean;
+    createdAt: Date;
+    updatedAt: Date;
   }
 }
 ```

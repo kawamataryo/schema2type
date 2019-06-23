@@ -25,7 +25,7 @@ module Schema2type
     end
 
     def converted_type_lines
-      ["type #{table_name} = {", ID_PROPERTY_LINE_TEXT, property_lines, "}\n"].flatten
+      ["interface #{table_name}{", ID_PROPERTY_LINE_TEXT, property_lines, "}\n"].flatten
     end
 
     def method_missing(*)

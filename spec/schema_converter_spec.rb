@@ -6,9 +6,9 @@ RSpec.describe 'SchemaConverter' do
   end
 
   describe '#result' do
-    it 'out_textの先頭に"type table_name = {", "id: number\n"、末尾に"}\n"を加えること' do
+    it 'out_textの先頭に"interface table_name{", "id: number\n"、末尾に"}\n"を加えること' do
       sc.send(:convert_property_line_and_push, name: 'name', type: 'strong', options: [{ null: true }])
-      expect(sc.converted_type_lines).to eq(['type User = {', "  id: number;", '  name: strong | null;', "}\n"])
+      expect(sc.converted_type_lines).to eq(['interface User{', "  id: number;", '  name: strong | null;', "}\n"])
     end
   end
 

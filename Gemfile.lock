@@ -17,7 +17,7 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     minitest (5.11.3)
-    rake (10.5.0)
+    rake (13.0.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -41,7 +41,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   bundler (~> 2.0)
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.0)
   schema2type!
 

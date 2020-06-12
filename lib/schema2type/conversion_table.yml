@@ -10,7 +10,7 @@ bigint: number
 float: number
 decimal: number
 boolean: boolean
-date: Date
-datetime: Date
-timestamp: Date
-datetime_with_timezone: Date
+date: string
+datetime: string
+timestamp: string
+datetime_with_timezone: string

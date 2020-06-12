@@ -82,10 +82,10 @@ the schema2type convert as per this conversion table.
 | float | number |
 | decimal | number |
 | boolean | boolean |
-| date | Date |
-| datetime | Date |
-| timestamp | Date |
-| datetime_with_timezone | Date |
+| date | string |
+| datetime | string |
+| timestamp | string |
+| datetime_with_timezone | string |
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

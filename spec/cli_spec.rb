@@ -59,10 +59,10 @@ RSpec.describe Schema2type do
               column_float: number | null;
               column_decimal: number | null;
               column_boolean: boolean | null;
-              column_date: Date;
-              column_datetime: Date | null;
-              column_timestamp: Date | null;
-              column_datetime_with_timezone: Date | null;
+              column_date: string;
+              column_datetime: string | null;
+              column_timestamp: string | null;
+              column_datetime_with_timezone: string | null;
             }
           }
         EOS
@@ -98,10 +98,10 @@ RSpec.describe Schema2type do
               columnFloat: number | null;
               columnDecimal: number | null;
               columnBoolean: boolean | null;
-              columnDate: Date;
-              columnDatetime: Date | null;
-              columnTimestamp: Date | null;
-              columnDatetimeWithTimezone: Date | null;
+              columnDate: string;
+              columnDatetime: string | null;
+              columnTimestamp: string | null;
+              columnDatetimeWithTimezone: string | null;
             }
           }
         EOS

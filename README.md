@@ -27,8 +27,8 @@ declare namespace schema {
     age: number | null;
     sales: number | null;
     paid: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
   }
 }
 ```

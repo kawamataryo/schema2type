@@ -16,6 +16,10 @@ module Schema2type
       @converted_types.concat converter.converted_type_lines
     end
 
+    def skip_dsl(*)
+      @converted_types
+    end
+
     def method_missing(*)
       # To exclude unnecessary methods
       # TODO: add error handling
@@ -41,5 +45,6 @@ module Schema2type
     end
 
     alias create_table convert_schema_to_type
+    alias add_foreign_key skip_dsl
   end
 end

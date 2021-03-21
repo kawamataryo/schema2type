@@ -47,8 +47,8 @@ RSpec.describe Schema2type do
               column_string: string | null;
               column_inet: string | null;
               column_text: string | null;
-              column_json: string | null;
-              column_jsonb: string;
+              column_json: Record<string, any> | null;
+              column_jsonb: Record<string, any>;
               column_binary: string;
               column_integer: number | null;
             }
@@ -86,8 +86,8 @@ RSpec.describe Schema2type do
               columnString: string | null;
               columnInet: string | null;
               columnText: string | null;
-              columnJson: string | null;
-              columnJsonb: string;
+              columnJson: Record<string, any> | null;
+              columnJsonb: Record<string, any>;
               columnBinary: string;
               columnInteger: number | null;
             }

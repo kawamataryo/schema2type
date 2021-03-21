@@ -2,8 +2,8 @@
 string: string
 inet: string
 text: string
-json: string
-jsonb: string
+json: Record<string, any>
+jsonb: Record<string, any>
 binary: string
 integer: number
 bigint: number

@@ -73,8 +73,8 @@ the schema2type convert as per this conversion table.
 |---|---|
 | string | string |
 | text | string |
-| json | string |
-| jsonb | string |
+| json | Record<string, any> |
+| jsonb | Record<string, any> |
 | binary | string |
 | inet | string |
 | integer | number |

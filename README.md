@@ -21,7 +21,7 @@ Automatically have the following TypesScript type generated.
 
 ```typescript
 declare namespace schema {
-  type User = {
+  interface User {
     id: number;
     name: string | null;
     age: number | null;
